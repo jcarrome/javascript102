@@ -23,3 +23,51 @@ const itemData = {
         score: 36
     }
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    const select = document.querySelector('#items');
+    const img = document.querySelector('#displayImage');
+    const photographer = document.querySelector('#photographer');
+    const description = document.querySelector('#description');
+    const score = document.querySelector('#score');
+    const btnUp = document.querySelector('#increaseScore');
+    const btnDown = document.querySelector('#decreaseScore');
+
+    // Llenar el select con los nombres
+    Object.entries(itemData).forEach(([key, item]) => {
+        const option = document.createElement('option');
+        option.value = key;
+        option.textContent = item.name;
+        select.appendChild(option);
+    });
+
+    // Función para mostrar los datos del ítem seleccionado
+    function mostrarItem(key) {
+        const item = itemData[key];
+        img.src = item.image;
+        photographer.value = item.photographer;
+        description.value = item.description;
+        score.value = item.score;
+    }
+
+    // Mostrar el primer ítem por defecto
+    select.value = Object.keys(itemData)[0];
+    mostrarItem(select.value);
+
+    // Cambiar datos al seleccionar otro ítem
+    select.addEventListener('change', () => {
+        mostrarItem(select.value);
+    });
+
+    // Aumentar puntaje
+    btnUp.addEventListener('click', () => {
+        itemData[select.value].score++;
+        score.value = itemData[select.value].score;
+    });
+
+    // Disminuir puntaje
+    btnDown.addEventListener('click', () => {
+        itemData[select.value].score--;
+        score.value = itemData[select.value].score;
+    });
+});
